@@ -62,16 +62,17 @@ app.use(
     secret: process.env.SESSION_SECRET ?? "jeweler-dev-secret-change-in-prod",
     resave: false,
     saveUninitialized: false,
-  cookie: {
-  httpOnly: true,
-  sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-  secure: process.env.NODE_ENV === "production",
-  maxAge: 7 * 24 * 60 * 60 * 1000,
-
+    cookie: {
+      httpOnly: true,
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    },
+  }),
+);
 
 app.use("/api", router);
 
-// Serve frontend static files — works in production (Railway) when Vite build output exists
 const frontendDist = path.resolve(process.cwd(), "artifacts/jeweler-repair/dist/public");
 if (existsSync(frontendDist)) {
   app.use(express.static(frontendDist));
